@@ -1,0 +1,16 @@
+{
+  "name": "practica-10-api-mongodb",
+  "version": "1.0.0",
+  "description": "creacion de API rest consumiendo BD en mongodb",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "pedrosky",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "express": "^4.21.1",
+    "mongoose": "^8.7.0"
+  }
+}
