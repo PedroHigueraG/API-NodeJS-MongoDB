@@ -4,7 +4,9 @@ const cursos = require('./routes/cursos')
 const auth = require('./routes/auth')
 const express = require('express')
 const mongoose = require('mongoose')
+const config = require('config')
 
+// variable de entorno NODE_ENV
 // Instanciando variables
 const app = express()
 const port = process.env.PORT || 3000
@@ -14,9 +16,7 @@ const port = process.env.PORT || 3000
 //     .then(()=>console.log("Conectado a BD!"))
 //     .catch(err => console.log("No se conectó a BD! ",err))
 
-const username = encodeURIComponent("admin");
-const password = encodeURIComponent("contraseñasegura123");
-const uri = `mongodb+srv://${username}:${password}@clustergratis.aacwg.mongodb.net/?retryWrites=true&w=majority&appName=ClusterGratis`;
+const uri = config.get('configDB.HOST');
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 
 mongoose.connect(uri, clientOptions)

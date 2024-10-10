@@ -1,0 +1,10 @@
+{
+    "nombre": "API Rest Express - Mongo",
+    "configDB": {
+        "HOST": "mongodb+srv://admin:contraseñasegura123@clustergratis.aacwg.mongodb.net/?retryWrites=true&w=majority&appName=ClusterGratis"
+    },
+    "configToken": {
+        "SEED": "secret",
+        "expiration": "24h"
+    }
+}
