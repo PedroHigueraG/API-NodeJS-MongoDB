@@ -39,11 +39,12 @@ ruta.post("/", (req, res) => {
   Usuario.findOne(
     {
       email: body.email,
-    },
-    (err, user) => {
-      if (err) return res.status(400).json({ error: "Server error" });
-      if (user) return res.status(400).json({ msj: "El usuario ya existe!" });
     }
+  ).then(
+    (err, user) => {
+        if (err) return res.status(400).json({ error: "Server error" });
+        if (user) return res.status(400).json({ msj: "El usuario ya existe!" });
+      }
   );
 
   const { error, value } = schema.validate({

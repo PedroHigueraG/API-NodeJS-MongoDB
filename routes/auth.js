@@ -16,15 +16,18 @@ ruta.post("/", (req, res) => {
           req.body.password,
           datos.password
         );
-        if (!passwordValido)
+        if (!passwordValido){
           return res.status(400).json({
             error: "ok",
-            msj: "Usuario o contraseña incorrecta" + err,
+            msj: "Usuario o contraseña incorrecta",
           });
+        }else{
+            return res.json(datos)
+        }
       } else
         res.status(400).json({
           error: "ok",
-          msj: "Usuario o contraseña incorrecta" + err,
+          msj: "Usuario o contraseña incorrecta",
         });
     })
     .catch((err) => {
