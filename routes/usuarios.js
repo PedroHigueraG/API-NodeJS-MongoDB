@@ -41,38 +41,44 @@ ruta.post("/", (req, res) => {
       email: body.email,
     }
   ).then(
-    (err, user) => {
-        if (err) return res.status(400).json({ error: "Server error" });
-        if (user) return res.status(400).json({ msj: "El usuario ya existe!" });
+    (user) => {
+        
+        if (user) {res.status(400).json({ msj: "El usuario ya existe!" });}
+        else {
+            const { error, value } = schema.validate({
+                nombre: body.nombre,
+                password: body.password,
+                email: body.email,
+              });
+            
+              if (!error) {
+                let resultado = crearUsuario(body);
+            
+                resultado
+                  .then((valor) => {
+                    return res.json({
+                      nombre: valor.nombre,
+                      email: valor.email,
+                    });
+                  })
+                  .catch((err) => {
+                    return res.status(400).json({
+                      error: err,
+                    });
+                  });
+              } else {
+                return res.status(400).json({
+                  error: error,
+                });
+              }
+        }
       }
+  ).catch(
+     (err) => { res.status(400).json({ error: "Server error" });}
   );
 
-  const { error, value } = schema.validate({
-    nombre: body.nombre,
-    password: body.password,
-    email: body.email,
-  });
+  
 
-  if (!error) {
-    let resultado = crearUsuario(body);
-
-    resultado
-      .then((valor) => {
-        res.json({
-          nombre: valor.nombre,
-          email: valor.email,
-        });
-      })
-      .catch((err) => {
-        res.status(400).json({
-          error: err,
-        });
-      });
-  } else {
-    res.status(400).json({
-      error: error,
-    });
-  }
 });
 
 // Ruta PUT
