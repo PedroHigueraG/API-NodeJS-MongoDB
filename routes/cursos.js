@@ -37,21 +37,21 @@ ruta.get("/", verificarToken,(req, res) => {
 });
 
 // Ruta POST
-ruta.post("/", (req, res) => {
-  let body = req.body;
+ruta.post("/", verificarToken,(req, res) => {
+  // let body = req.body;
 
   const {error, value} = schema.validate({
-    titulo: body.titulo,
-    descripcion: body.descripcion
+    titulo: req.body.titulo,
+    descripcion: req.body.descripcion
   })
 
   if(!error){
-    let resultado = crearCurso(body);
+    let resultado = crearCurso(req);
 
     resultado
       .then((valor) => {
         res.json({
-          valor: valor,
+          valor
         });
       })
       .catch((err) => {
@@ -116,10 +116,11 @@ ruta.delete("/:id",verificarToken, (req, res) => {
 });
 
 // Definicion de funciones
-async function crearCurso(body) {
+async function crearCurso(req) {
   let curso = new Curso({
-    titulo: body.titulo,
-    descripcion: body.descripcion
+    titulo: req.body.titulo,
+    autor: req.usuario._id,
+    descripcion: req.body.descripcion
   });
 
   return await curso.save();
@@ -128,7 +129,7 @@ async function crearCurso(body) {
 async function listarCursosActivos() {
   let curso = await Curso.find({
     estado: true,
-  });
+  }).populate('autor','nombre');
 
   return curso;
 }

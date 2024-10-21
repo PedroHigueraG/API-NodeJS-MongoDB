@@ -25,11 +25,12 @@ ruta.post("/", (req, res) => {
           });
         } else {
           const jwtoken = jwt.sign(
+            {usuario:
             {
               _id: datos.id,
               nombre: datos.nombre,
               email: datos.email,
-            },
+            }},
             config.get('configToken.SEED'),
             {
               expiresIn: config.get('configToken.expiration')

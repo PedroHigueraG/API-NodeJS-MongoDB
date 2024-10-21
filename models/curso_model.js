@@ -1,11 +1,17 @@
 // Importando paquetes
+const { type } = require('@hapi/joi/lib/extend')
 const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 // Definimos el esquema
 const cursoSchema = new mongoose.Schema({
     titulo: {
         type: String,
         required: true
+    },
+    autor:{
+        type: Schema.Types.ObjectId, 
+        ref: 'Usuario'
     },
     descripcion: {
         type: String,
