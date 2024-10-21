@@ -2,6 +2,7 @@
 const express = require("express");
 const Joi = require('@hapi/joi')
 const Curso = require("../models/curso_model");
+const verificarToken = require("../middlewares/auth")
 
 // Instanciamos variables
 const ruta = express.Router();
@@ -18,7 +19,7 @@ const schema = Joi.object({
 })
 
 // Establecemos las rutas
-ruta.get("/", (req, res) => {
+ruta.get("/", verificarToken,(req, res) => {
 
   let resultado = listarCursosActivos()
 
@@ -67,7 +68,7 @@ ruta.post("/", (req, res) => {
 });
 
 // Ruta PUT
-ruta.put("/:id", (req, res) => {
+ruta.put("/:id", verificarToken,(req, res) => {
 
     const {error, value} = schema.validate({
         titulo: req.body.titulo,
@@ -98,7 +99,7 @@ ruta.put("/:id", (req, res) => {
 });
 
 // Ruta DELETE
-ruta.delete("/:id", (req, res) => {
+ruta.delete("/:id",verificarToken, (req, res) => {
   let resultado = desactivarCurso(req.params.id);
 
   resultado

@@ -3,6 +3,7 @@ const express = require("express");
 const Joi = require("@hapi/joi");
 const Usuario = require("../models/usuario_model");
 const bcrypt = require("bcrypt")
+const verificarToken = require("../middlewares/auth")
 
 // Instanciamos variables
 const ruta = express.Router();
@@ -17,8 +18,9 @@ const schema = Joi.object({
   }),
 });
 
+
 // Establecemos las rutas
-ruta.get("/", (req, res) => {
+ruta.get("/",verificarToken, (req, res) => {
   let resultado = listarUsuariosActivos();
 
   resultado
@@ -33,7 +35,7 @@ ruta.get("/", (req, res) => {
 });
 
 // Ruta POST
-ruta.post("/", (req, res) => {
+ruta.post("/",(req, res) => {
   let body = req.body;
 
   Usuario.findOne(
@@ -82,7 +84,7 @@ ruta.post("/", (req, res) => {
 });
 
 // Ruta PUT
-ruta.put("/:email", (req, res) => {
+ruta.put("/:email",verificarToken, (req, res) => {
   const { error, value } = schema.validate({
     nombre: req.body.nombre,
     password: req.body.password,
@@ -111,7 +113,7 @@ ruta.put("/:email", (req, res) => {
 });
 
 // Ruta DELETE
-ruta.delete("/:email", (req, res) => {
+ruta.delete("/:email",verificarToken, (req, res) => {
   let resultado = desactivarUsuario(req.params.email);
 
   resultado
